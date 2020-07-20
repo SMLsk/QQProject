@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html window-frame="solid-with-shadow">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<style type="text/css">
+	body{
+		margin:0px;
+	}
+	#Top {
+		width: 100%;
+		height:107px;
+		margin-left: 0 auto;
+		margin-right:0 auto;
+		//border:0.5px solid;
+		background: url(E://Technology//Project//MyGo//src//QQ//public//bg2.jpg);
+		background-size:100% 100%;
+	}
+ 
+	#Bottom{
+		width: 100%;
+		height: 451px;
+		//border:2px solid;
+		margin: 0 auto;
+		background-color:#EAEEF5;
+	}
+	#QQIcon{
+		float:left;
+		width:23px;
+		height:22.5px;
+		border:0.5px solid;
+		background-color:black;
+	}
+	#Close{
+		float:right;
+		width:23px;
+		height:22.5px;
+		//border:0.5px solid;
+		//background-color:black;
+		font-size:small;
+	}
+	#CloseButton{
+		border:0px;
+		background:none;
+		color:white;
+	}
+	#Info{
+		position:absolute;
+		top:23px;
+		width:100%;
+		height:60.4;
+		//border:0.5px solid;
+		padding-left:10px;
+		padding-top:8px;
+	}
+	#profilePhoto{
+		border-radius:50%;
+		width:37px;
+		height:37px;
+	}
+	#photobox{
+		//background-color:black;
+		float:left;
+		width:40px;
+		height:40px;
+		//border:1px solid;
+	}
+	#Space{
+		float:left;
+		width:10px;
+		height:40px;
+	}
+	#Name{
+		float:left;
+		width:165px;
+		height:20px;
+		font-size:small;
+		font-weight:500;
+		color:white;
+		//border:1px solid;
+	}
+	#Sign{
+		float:left;
+		width:165px;
+		height:20px;
+		//border:1px solid;
+		color:white;
+		font-size:xx-small;
+	}
+	
+	#Search{
+		position:absolute;
+		top:83.4px;
+		width:100%;
+		height:23.6;
+		//border:0.5px solid;
+		padding-top:2px;
+		padding-left:2px;
+		background-color:rgba(232,238,245,0.5);// -->70%的不透明度
+
+	}
+	#SearchIconv{
+		float:left;
+		height:20;
+		width:20;
+		//border:0.5px solid;
+	}
+	#SearchInput{
+		position:relative;
+		top:4px;
+		left:21;
+		color:white;
+	}
+	#Title{
+		width:100%;
+		height:30px;
+		padding-left:5px;
+		border-bottom:1px solid #DDE1E8;
+	}
+	#Title>div{
+		float:left;
+		width:31%;
+		height:100%;
+		//border:1px solid;
+		padding-top:4px;
+
+	}
+	#Title>div>button{
+		border:0px;
+		background:none;
+		margin-left:0px;
+		width:90%;
+		text-align:center;
+		font-size:x-small;
+		font-weight:600;
+		color:#77797C;
+	}
+	/*
+	#Minimum{
+		float:right;
+		width:25px;
+		height:25px;
+		border:2px solid;
+		font-size:small;
+	}
+	#MinimumButton{
+		border:0px;
+		background:none;
+		color:white;
+	}
+	#ManageSurface{
+		float:right;
+		width:25px;
+		height:25px;
+		border:2px solid;
+		font-size:small;
+	}
+	#ManageSurfaceButton{
+		border:0px;
+		background:none;
+		color:white;
+	}
+	*/
+	</style>
+	<script type="text/tiscript">
+		$(#CloseButton).on("click", function() {
+		//关闭
+		view.close();
+		});
+		$(#MessagesButton).on("click", function() {
+			alert("This is MessagesButton")
+		});
+		$(#ContactsButton).on("click", function() {
+			alert("This is ContactsButton")
+		});
+		$(#GroupChatsButton).on("click", function() {
+			alert("This is GroupChatsButton")
+		});
+		function alert(info){
+			view.msgbox(#alert,info)
+			
+		}
+		function error(info){
+			view.msgbox(#error,info)
+			view.close()
+		}
+		view.isResizeable = false;
+		
+	</script>
+</head>
+<body role="window-caption">
+<div id="Top">
+	
+	<div id="QQIcon">
+		
+	</div>
+	<div id="Close">
+		<button id="CloseButton">X</button>
+	</div>
+	<!-- <div id="Minimum"> -->
+	<!-- <button id="MinimumButton">-</button> -->
+	<!-- </div> -->
+	<!-- <div id="ManageSurface"> -->
+	<!-- <button id="ManageSurfaceButton">+</button> -->
+	<div id="Info">
+		<div id="photobox">
+			<img id="profilePhoto" src="E:\Technology\Project\MyGo\src\QQ\public\2.jpg" />
+		</div>
+		<div id="Space">
+		</div>
+		<div id="Name">
+			西米鲁
+		</div>
+		<div id="Sign">
+			hhhh
+		</div>
+	</div>
+	<div id="Search">
+		<div id="SearchIconv"><img src="E:\Technology\Project\MyGo\src\QQ\public\search.png"></img></div>
+		<div id="SearchInput">搜索</div>
+	</div>
+
+</div>
+
+</div>
+<div id="Bottom">
+
+	<div id="Title">
+		<div id="Messages" class="title">
+			<button id="MessagesButton">消息</button>
+		</div>
+		<div id="Contacts" >
+			<button id="ContactsButton">联系人</button>
+		</div>
+		<div id="GroupChats">
+			<button id="GroupChatsButton">群聊</button>
+		</div>
+	</div>
+
+</div>
+
+</body>
+</html>

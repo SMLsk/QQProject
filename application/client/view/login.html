@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html window-frame="solid-with-shadow">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <style type="text/css">
+		body{
+			margin:0px;
+			margin-top:0px;
+		}
+        #loginTop {
+            width: 100%;
+            height: 95px;
+            margin-left: auto;
+            margin-right: auto;
+			background-image: url(E://Technology//Project//MyGo//src//QQ//public//1.png);
+			background-color:black;
+			//border:2px solid;
+        }
+ 
+        #loginBot{
+			width: 100%;
+            height: 165px;
+			//border:2px solid;
+            margin: 0 auto;
+        }
+		#profilePhoto{
+			border-radius:50%;
+			width:50px;
+			height:50px;
+		}
+		#photobox{
+			position:fixed;
+			left:150px;
+			top:70px;
+			width:50px;
+			height:50px;
+			//border:1px solid;
+		}
+		#loginInfo{
+			margin-top:40px;
+			margin-left:70px;
+			border:1px solid
+			width:70px;
+			font-weight:100;
+			font-size:xx-small;
+			color:#B8BABC
+		}
+		.input{
+			border-bottom-color:#B8BABC
+		}
+		#qq_icon{
+			background-image:url(E://Technology//Project//MyGo//src//QQ//public//3.png);
+		}
+		#pwd_icon{
+			background-image:url(E://Technology//Project//MyGo//src//QQ//public//4.png);
+		}
+		#loginButtonDiv{
+			border:0.5px solid #02B8FA;
+			border-radius:5px;
+			-moz-border-radius:5px; /* Old Firefox */
+			background-color:#02B8FA;
+			height:20px;
+			margin-left:5px;
+			//text-align:center;
+			font-weight:200;
+			font-size:small;
+		}
+		#register{
+			position:fixed;
+			left:10px;
+			top:240px;
+			width:55px;
+			height:25px;
+			font-size:x-small;
+			color:#B8BABC
+		}
+		#QRCode{
+			position:fixed;
+			left:325px;
+			top:230px;
+			width:30px;
+			height:30px;
+			border:1px solid;
+		}
+		#close{
+			position:fixed;
+			left:335px;
+			top:5px;
+			width:25px;
+			height:25px;
+			color:white;
+			font-size:small;
+		}
+		#closeButton{
+			border:0px;
+			background:none;
+			color:white;
+		}
+		#loginButton{
+			border:0px;
+			background:none;
+			margin-left:0px;
+			width:90%;
+			text-align:center;
+		}
+    </style>
+	<script type="text/tiscript">
+	
+		/*function alert(info){
+			view.msgbox(#alert,info)
+			
+		}
+		function error(info){
+			view.msgbox(#error,info)
+			view.close()
+		}*/
+		$(#closeButton).on("click", function() {
+			//关闭
+			view.close();
+		});
+		$(#loginButton).on("click", function() {
+			var res = this.login(self.$(#qq).value,self.$(#pwd).value);
+			if (res == "ok"){
+				view.close()
+			}else{
+				view.msgbox(#alert,"Error")
+			}
+		});
+		</script>
+
+</head>
+<body role="window-caption">
+ 
+	<div id="loginTop">
+	   
+	</div>
+	
+	<div id="loginBot">
+		<table id="loginInfo">
+			<tr class="input">
+			  <td style="background-color:black" id="qq_icon"></td>
+			  <td colspan="6"><input style="border:0px" type="text" id="qq" /></td>
+			</tr>
+			<tr class="input">
+			  <td style="background-color:black" id="pwd_icon"></td>
+			  <td colspan="6"><input style="border:0px" type="password" id="pwd"/></td>
+			</tr>
+			<tr>
+			  <td ><input type="checkbox"/></td>
+			  <td >自动登录</td>
+			  <td>&nbsp;</td>
+			  <td ><input type="checkbox"/></td>
+			  <td  >记住密码</td>
+			  <td >&nbsp;</td>
+			  <td  >找回密码</td>
+			</tr>
+			<tr>
+				<td colspan="7">
+					<div  id="loginButtonDiv" >
+						<button id="loginButton">
+							<font style="color:white">
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登录
+							</font>
+						</button>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div id="photobox">
+		<img id="profilePhoto" src="E:\Technology\Project\MyGo\src\QQ\public\2.jpg" />
+	<div>
+	<div id="register">
+	注册账号
+	<div>
+	<div id="QRCode">
+	
+	<div>
+	<div id="close">
+		<button id="closeButton">X</button>
+	<div>
+</body>
+</html>
+
