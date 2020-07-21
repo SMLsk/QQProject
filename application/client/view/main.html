@@ -22,6 +22,7 @@
 		//border:2px solid;
 		margin: 0 auto;
 		background-color:#EAEEF5;
+		
 	}
 	#QQIcon{
 		float:left;
@@ -115,6 +116,7 @@
 		height:30px;
 		padding-left:5px;
 		border-bottom:1px solid #DDE1E8;
+		
 	}
 	#Title>div{
 		float:left;
@@ -133,6 +135,52 @@
 		font-size:x-small;
 		font-weight:600;
 		color:#77797C;
+	}
+	#Main{
+		height:380px;
+		border:1px solid;
+		overflow-y:auto;
+	}
+	.Group{
+		//height:20px;
+		//border:1px solid;
+	}
+	
+	.GroupButton{
+		width:100%;
+		height:20px;
+		background:none;
+		color:black;
+		padding:0px;
+	}
+	.GroupButtonDiv{
+		height:20px;
+		width:100%;
+		//border:1px solid;
+		padding:0px;
+	}
+	.GroupButtonIcon{
+		float:left;
+		height:20px;
+		width:20px;
+		//border:1px solid;
+	}
+	.GroupName{
+		float:left;
+		//border:1px solid;
+		height:100%;
+		width:100px;
+		text-align:left;
+		padding-top:2px;
+	}
+	.Friends{
+		height:80px;
+		border:1px solid;
+		overflow-y:hidden;
+	}
+	.Friend{
+		height:40px;
+		//border:1px solid;
 	}
 	/*
 	#Minimum{
@@ -162,9 +210,81 @@
 	*/
 	</style>
 	<script type="text/tiscript">
+		self.root.on("ready", function() {
+			var friendsData = JSON.parse(view.GetFriendsData());
+			//var friendsData = '{"groups":{"1":"好友","2":"家人","3":"同学"},"groupsFriends":{"1":[{"FriendQQ":1234567891,"Sign":"perfect1","photoID":2,"nickName":"SK1","groupId":1,"status":1},{"FriendQQ":1234567894,"Sign":"perfect4","photoID":2,"nickName":"SK4","groupId":1,"status":1}],"2":[{"FriendQQ":1234567892,"Sign":"perfect2","photoID":2,"nickName":"SK2","groupId":2,"status":1}],"3":[{"FriendQQ":1234567893,"Sign":"perfect3","photoID":2,"nickName":"SK3","groupId":3,"status":1}]}}';
+			//var friendsData = '{"groups":{"4":"好友","5":"大学","6":"小学"},"groupsFriends":{"4":[{"FriendQQ":1234567890,"Sign":"okk","photoID":1,"nickName":"SK","groupId":4,"status":1}]}}';
+			//{"groups":{"4":"好友","5":"大学","6":"小学"},"groupsFriends":{"4":[{"FriendQQ":1234567890,"Sign":"okk","photoID":1,"nickName":"SK","groupId":4,"status":1}]}}
+			//alert(view.GetFriendsData());
+			initInterface(friendsData);
+		
+			var list = self.$$(.Group>.GroupButton);
+			for (var i=0;i<list.length;i++){
+				list[i].on("click", function() {
+					this.parent.last.style["height"] = "50px";
+					if (this.parent[1].style["display"]=="none"){
+						Unfoldx(this.parent.last,this.parent.last.length)
+					}else{
+						Fold(this.parent[1],this.parent.last.length);
+					}
+				});
+			}
+		});
+		function initInterface(friendsData){
+			for (var groupId in friendsData["groups"]){
+				var group = new Element("div");
+				group.attributes["class"]="Group";
+				$(#Main).append(group);
+				
+				var groupButton = new Element("button");
+				groupButton.attributes["class"]="GroupButton";
+				group.append(groupButton);
+				
+				var groupButtonDiv = new Element("div");
+				groupButtonDiv.attributes["class"]="GroupButtonDiv";
+				groupButton.append(groupButtonDiv);
+				
+				var groupButtonIcon = new Element("div");
+				groupButtonIcon.attributes["class"]="GroupButtonIcon";
+				var groupName = new Element("div");
+				groupName.attributes["class"]="GroupName";
+				groupName.text = friendsData.groups[groupId];
+				
+				groupButtonDiv.append(groupButtonIcon);
+				groupButtonDiv.append(groupName);
+				
+				
+				var friends = new Element("div");
+				friends.attributes["class"]="Friends";
+				
+				//alert("ok");
+				/*if(!friendsData["groupsFriends"].find(groupId)){
+					group.append(friends);
+					continue;
+				}else{
+					friends.style["height"] = friendsData["groupsFriends"][groupId].length*40+"px";
+				}*/
+				//alert("ok");
+				
+				friends.style["height"] = friendsData["groupsFriends"][groupId].length*40+"px";
+				group.append(friends);
+				var i=0;	//这里的i是因为登录之后，有些分组为空，但是默认是block的，点击后会出现奇怪的闪现，懒得找原因了，就加个变量吧。
+				for (var friendObj in friendsData["groupsFriends"][groupId]){
+					var friend = new Element("div");
+					friend.attributes["class"]="Friend";
+					friend.text=friendObj.FriendQQ+friendObj.nickName;
+					friends.append(friend);
+					i++;
+				}
+				if(i==0){
+					friends.style["display"] = "none";
+				}
+			}
+		}
+		//view.msgbox(#alert,$(.Group).attributes["class"])
 		$(#CloseButton).on("click", function() {
 		//关闭
-		view.close();
+			view.close();
 		});
 		$(#MessagesButton).on("click", function() {
 			alert("This is MessagesButton")
@@ -175,16 +295,44 @@
 		$(#GroupChatsButton).on("click", function() {
 			alert("This is GroupChatsButton")
 		});
+		function Unfoldx(friends,n){
+			var maxH = n*40;
+			var h = 0;
+			friends.timer(10,function(){
+				h += 10;
+				if(h > maxH){
+					friends.style["height"] = maxH + "px";
+					return false;
+				}else{
+					friends.style["height"] = h + "px";
+					friends.style["display"] = "block";
+					
+				}
+				return true;
+			});
+		}
+		function Fold(friends,n){
+			var h = n*40;
+			$(#Main).timer(10,function(){
+				h -= 10;
+				if(h < 0){
+					friends.style["display"] = "none";
+					return false;
+				}else{
+					friends.style["height"] = h+"px";
+					return true;
+				}
+			});
+		}
+		
 		function alert(info){
 			view.msgbox(#alert,info)
-			
 		}
 		function error(info){
 			view.msgbox(#error,info)
 			view.close()
 		}
 		view.isResizeable = false;
-		
 	</script>
 </head>
 <body role="window-caption">
@@ -235,7 +383,48 @@
 			<button id="GroupChatsButton">群聊</button>
 		</div>
 	</div>
-
+	<div id="Main">
+		<!-- <div class="Group"> -->
+			<!-- <button class="GroupButton"> -->
+				<!-- <div class="GroupButtonDiv"> -->
+					<!-- <div class="GroupButtonIcon"> -->
+						
+					<!-- </div> -->
+					<!-- <div class="GroupName"> -->
+					<!-- 朋友 -->
+					<!-- </div> -->
+				<!-- </div> -->
+			<!-- </button> -->
+			<!-- <div class="Friends"> -->
+				<!-- <div class="Friend"> -->
+					
+				<!-- </div> -->
+				<!-- <div class="Friend"> -->
+					
+				<!-- </div> -->
+			<!-- </div> -->
+		<!-- </div> -->
+		<!-- <div class="Group" > -->
+			<!-- <button class="GroupButton"> -->
+				<!-- <div class="GroupButtonDiv"> -->
+					<!-- <div class="GroupButtonIcon"> -->
+						
+					<!-- </div> -->
+					<!-- <div class="GroupName"> -->
+					<!-- 家人 -->
+					<!-- </div> -->
+				<!-- </div> -->
+			<!-- </button> -->
+			<!-- <div class="Friends"> -->
+				<!-- <div class="Friend"> -->
+					
+				<!-- </div> -->
+				<!-- <div class="Friend"> -->
+					
+				<!-- </div> -->
+			<!-- </div> -->
+		<!-- </div> -->
+	</div>
 </div>
 
 </body>

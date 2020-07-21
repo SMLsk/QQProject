@@ -29,7 +29,6 @@ func (this *MainProcess) Run() {
 	if err != nil {
 		this.Window.Call("error", sciter.NewValue("网络问题，连接服务器失败"))
 	}
-
 	loginProcessor := &processor.LoginProcessor{
 		Window: this.Window,
 		Root:   root,
@@ -39,15 +38,23 @@ func (this *MainProcess) Run() {
 
 	this.Window.Show()
 	this.Window.Run()
+
 	if model.MyFriendsManager == nil {
 		return
 	}
-	Window, err := window.New(sciter.DefaultWindowCreateFlag, &sciter.Rect{1190, 70, 1480, 630})
+	this.Window, err = window.New(sciter.DefaultWindowCreateFlag, &sciter.Rect{1190, 70, 1480, 630})
 	if err != nil {
 		// log.Fatal(err)
 	}
-	Window.LoadFile("E://Technology//Project//MyGo//src//QQ//application//client//view//main.html")
-	Window.SetTitle("Main")
-	Window.Show()
-	Window.Run()
+	this.Window.LoadFile("E://Technology//Project//MyGo//src//QQ//application//client//view//main.html")
+	this.Window.SetTitle("Main")
+	root, err = this.Window.GetRootElement()
+	mainProcessor := &processor.MainProcessor{
+		Window: this.Window,
+		Root:   root,
+		Conn:   this.Conn,
+	}
+	mainProcessor.DefFunc()
+	this.Window.Show()
+	this.Window.Run()
 }

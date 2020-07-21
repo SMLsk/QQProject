@@ -5,8 +5,8 @@ import (
 )
 
 type FriendsManager struct {
-	Groups        map[int]string
-	GroupsFriends map[int][]message.FriendInfo
+	Groups        map[int]string               `json:"groups"`
+	GroupsFriends map[int][]message.FriendInfo `json:"groupsFriends"`
 }
 
 var (
@@ -21,6 +21,7 @@ func NewFriendsManager(groups []message.GroupInfo, friends []message.FriendInfo)
 
 	for _, val := range groups {
 		myFriendsManager.Groups[val.GroupId] = val.GroupName
+		myFriendsManager.GroupsFriends[val.GroupId] = make([]message.FriendInfo, 0)
 	}
 	for _, val := range friends {
 		myFriendsManager.GroupsFriends[val.GroupId] = append(myFriendsManager.GroupsFriends[val.GroupId], val)

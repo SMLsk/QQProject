@@ -211,6 +211,8 @@
 	</style>
 	<script type="text/tiscript">
 		self.root.on("ready", function() {
+			var arr = JSON.parse(view.GetFriendsData());
+			alert(arr.groups)
 			var list = self.$$(.Group>.GroupButton);
 			for (var i=0;i<list.length;i++){
 				list[i].on("click", function() {
@@ -366,6 +368,7 @@
 			</div>
 		</div>
 	</div>
+	<div id="test">123</div>
 </div>
 
 </body>

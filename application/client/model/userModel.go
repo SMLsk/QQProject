@@ -34,7 +34,7 @@ func (this *UserModel) Login(qq int, pwd string, conn net.Conn) (err error) {
 	err = json.Unmarshal([]byte(resMes.Data), &loginRes)
 	if loginRes.Code == 200 {
 		MyFriendsManager = NewFriendsManager(loginRes.Groups, loginRes.Friends)
-
+		fmt.Println(MyFriendsManager)
 		return nil
 	} else if loginRes.Code == 500 {
 		fmt.Println(loginRes.Error)
