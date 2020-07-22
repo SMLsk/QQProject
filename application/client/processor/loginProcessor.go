@@ -30,15 +30,13 @@ func (this *LoginProcessor) setElementHandler() {
 	loginButton.DefineMethod("login", func(args ...*sciter.Value) *sciter.Value {
 		qq, _ := strconv.Atoi(args[0].String())
 		pwd := args[1].String()
-		// fmt.Println(args)
-		// fmt.Println(qq, pwd)
-		userModel := &model.UserModel{}
-		err := userModel.Login(qq, pwd, this.Conn)
+		var err error
+		model.MyUserModel, err = model.Login(qq, pwd, this.Conn)
 		if err != nil {
 			fmt.Println(err)
 			return sciter.NewValue("error")
 		}
-		fmt.Println(model.MyFriendsManager)
+		// fmt.Println(model.MyFriendsManager)
 		go serverProcessMes(this.Conn)
 		return sciter.NewValue("ok")
 	})

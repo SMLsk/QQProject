@@ -138,4 +138,13 @@ qq_groups.group_name as "所属分组"
 from qq_user,qq_friends,qq_groups
 where qq_friends.user_qq=1234567891 and qq_friends.friend_qq=qq_user.qq and qq_friends.group_id=qq_groups.id
 ;
-
+drop table `qq_photo`;
+create table `qq_photo`(
+	id int(11) NOT NULL AUTO_INCREMENT,
+	address varchar(128) NOT NULL DEFAULT '',
+	primary key(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+insert into `qq_photo` (address)  values 
+("http://simisimisimiru.gitee.io/imagebed/p1.jpeg"),
+("http://simisimisimiru.gitee.io/imagebed/p2.jpg");
+select * from `qq_photo`;

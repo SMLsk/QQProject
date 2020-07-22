@@ -37,4 +37,9 @@ func (this *MainProcessor) setWinHandler() {
 		fmt.Println(string(data))
 		return sciter.NewValue(string(data))
 	})
+	this.Window.DefineFunction("GetUserInfo", func(args ...*sciter.Value) *sciter.Value {
+		user, _ := json.Marshal(model.MyUserModel.UserInfo)
+		fmt.Println(string(user))
+		return sciter.NewValue(string(user))
+	})
 }

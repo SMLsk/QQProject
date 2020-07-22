@@ -18,12 +18,13 @@ func NewFriendsManager(groups []message.GroupInfo, friends []message.FriendInfo)
 		Groups:        make(map[int]string, 0),
 		GroupsFriends: make(map[int][]message.FriendInfo, 0),
 	}
-
+	photoModel := &PhotoModel{}
 	for _, val := range groups {
 		myFriendsManager.Groups[val.GroupId] = val.GroupName
 		myFriendsManager.GroupsFriends[val.GroupId] = make([]message.FriendInfo, 0)
 	}
 	for _, val := range friends {
+		val.PhotoAddress = photoModel.DownPhoto(val.PhotoAddress)
 		myFriendsManager.GroupsFriends[val.GroupId] = append(myFriendsManager.GroupsFriends[val.GroupId], val)
 	}
 

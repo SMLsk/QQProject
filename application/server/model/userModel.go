@@ -2,7 +2,6 @@ package model
 
 import (
 	"QQ/application/common"
-	// "QQ/application/common"
 	"QQ/application/common/message"
 	"QQ/application/server/dao"
 	"fmt"
@@ -37,18 +36,20 @@ func (this *UserModel) GetUserByqq(qq int) (user message.User) {
 	if err != nil {
 		return
 	}
+	photoModel := PhotoModel{}
 	user = message.User{
-		QQ:        qq,
-		Sign:      res["sign"],
-		PhotoID:   common.Atoi(res["photoID"]),
-		NickName:  res["nickName"],
-		Sex:       res["sex"],
-		Birthday:  res["birthday"],
-		BloodType: res["bloodType"],
-		Diploma:   res["diploma"],
-		Telephone: res["telephone"],
-		Email:     res["email"],
-		Address:   res["address"],
+		QQ:   qq,
+		Sign: res["sign"],
+		// PhotoID:   common.Atoi(res["photoID"]),
+		PhotoAddress: photoModel.GetPhotoAddressById(common.Atoi(res["photoID"])),
+		NickName:     res["nickName"],
+		Sex:          res["sex"],
+		Birthday:     res["birthday"],
+		BloodType:    res["bloodType"],
+		Diploma:      res["diploma"],
+		Telephone:    res["telephone"],
+		Email:        res["email"],
+		Address:      res["address"],
 	}
 	return
 }

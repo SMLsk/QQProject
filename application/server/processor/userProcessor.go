@@ -44,6 +44,7 @@ func (this *UserProcessor) LoginProcess(mes message.Message) (err error) {
 		fmt.Println(err)
 
 		loginRes = this.assembleLoginSuccessRes(user)
+		// fmt.Println(loginRes)
 		for _, val := range loginRes.Friends {
 			this.Friends = append(this.Friends, val.FriendQQ)
 		}
@@ -82,6 +83,7 @@ func (this *UserProcessor) assembleLoginSuccessRes(user message.User) (loginRes 
 			loginRes.Friends[i].Status = message.Online
 		}
 	}
+	fmt.Println(loginRes)
 	return loginRes
 }
 
