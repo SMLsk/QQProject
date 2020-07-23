@@ -182,6 +182,14 @@
 		height:80px;
 		//border:1px solid;
 		overflow-y:hidden;
+		
+	}
+	.FriendButton{
+		width:100%;
+		height:40px;
+		background:none;
+		//color:black;
+		padding:0px;
 	}
 	.Friend{
 		height:40px;
@@ -217,13 +225,16 @@
 	</style>
 	<script type="text/tiscript">
 		self.root.on("ready", function() {
-			var userInfo = JSON.parse(view.GetUserInfo());
-			//var userInfo = JSON.parse('{"QQ":1234567891,"Pwd":"","Sign":"perfect1","photoAddress":"../data/image/p2.jpg","nickName":"SK1","sex":"man","birthday":"1595128856","bloodType":"O","diploma":"研究生","telephone":"15512344321","email":"1234567891@qq.com","address":"GUDT"}');
+			var userInfo = view.GetUserInfo();
+			//var userInfo = '{"QQ":1234567890,"Pwd":"","Sign":"okk","photoAddress":"../data/image/p1.jpeg","nickName":"SK","sex":"man","birthday":"1594877431","bloodType":"A","diploma":"无","telephone":"","email":"","address":""}';
 			
-			var friendsData = JSON.parse(view.GetFriendsData());
-			//var friendsData = JSON.parse('{"groups":{"4":"好友","5":"大学","6":"小学"},"groupsFriends":{"4":[{"FriendQQ":1234567890,"Sign":"okk","photoAddress":"../data/image/p1.jpeg","nickName":"SK","groupId":4,"status":1}],"5":[],"6":[]}}');
+			var friendsData = view.GetFriendsData();
+			//alert(JSON.parse(view.GetFriendsData()));
+			//var friendsData = '{"groups":{"1":"好友","2":"家人","3":"同学"},"groupsFriends":{"1":["1234567891","1234567894"],"2":["1234567892"],"3":["1234567893"]},"friends":{"1234567891":{"FriendQQ":1234567891,"Sign":"perfect1","photoAddress":"../data/image/p2.jpg","nickName":"SK1","groupId":1,"status":1},"1234567892":{"FriendQQ":1234567892,"Sign":"perfect2","photoAddress":"../data/image/p2.jpg","nickName":"SK2","groupId":2,"status":1},"1234567893":{"FriendQQ":1234567893,"Sign":"perfect3","photoAddress":"../data/image/p2.jpg","nickName":"SK3","groupId":3,"status":1},"1234567894":{"FriendQQ":1234567894,"Sign":"perfect4","photoAddress":"../data/image/p2.jpg","nickName":"SK4","groupId":1,"status":1}}}';
 			initInterface(userInfo,friendsData);
+		});
 		
+		function initMethod(){
 			var list = self.$$(.Group>.GroupButton);
 			for (var i=0;i<list.length;i++){
 				list[i].on("click", function() {
@@ -237,14 +248,68 @@
 					}
 				});
 			}
-		});
-		function initInterface(userInfo,friendsData){
-			//alert(userInfo["QQ"])
-			$(#profilePhoto).attributes["src"]=userInfo["photoAddress"];
-			$(#Name).text = userInfo["nickName"];
-			$(#Sign).text = userInfo["Sign"];
-			/*初始化好友列表*/
+			var friendButtons = $$(.FriendButton);
+			for(var i = 0;i < friendButtons.length;i++){
+				friendButtons[i].on("click",function(){
+					alert(this.id);
+				});
+			}
+		}
+		
+		function initFriend(friendObj){
+			var friendButton = new Element("button");
+			friendButton.attributes["class"]="FriendButton";
+			friendButton.attributes["id"]=friendObj["FriendQQ"];
+			if(friendObj["status"]=="0"){
+				friendButton.style["background-color"]="white";
+			}
+			//friends.append(friendButton);
+		
+			var friend = new Element("div");
+			friend.attributes["class"]="Friend";
+			friend.attributes["id"]=friendObj["FriendQQ"];
+			friendButton.append(friend);
+			
+			var photobox = new Element("div");
+			photobox.attributes["class"]="Photobox";
+			friend.append(photobox);
+			
+			var profilePhoto = new Element("img");
+			profilePhoto.attributes["class"]="ProfilePhoto";
+			//alert("ok");
+			//alert(friendObj["photoAddress"]);
+			profilePhoto.attributes["src"] = friendObj["photoAddress"];
+			photobox.append(profilePhoto);
+			
+			var space = new Element("div");
+			space.attributes["class"]="Space";
+			friend.append(space);
+			
+			var name = new Element("div");
+			name.attributes["class"]="Name";
+			name.text = friendObj["nickName"];
+			friend.append(name);
+			
+			var sign = new Element("div");
+			sign.attributes["class"]="Sign";
+			sign.text = friendObj["Sign"];
+			friend.append(sign);
+			return friendButton;
+		}
+		
+		function initGroups(friendsData){
+			var groups = $$(.Group);
+			if (groups.length!=0){
+				for(var i = 0;i<groups.length;i++){
+					groups[i].remove();
+				}
+			}
+			
+			//alert(friendsData);
+			friendsData = JSON.parse(friendsData);
+			//alert(friendsData);
 			for (var groupId in friendsData["groups"]){
+				//alert(groupId);
 				var group = new Element("div");
 				group.attributes["class"]="Group";
 				$(#Main).append(group);
@@ -275,42 +340,42 @@
 				friends.style["height"] = friendsData["groupsFriends"][groupId].length*40+"px";
 				group.append(friends);
 				var i=0;	//这里的i是因为登录之后，有些分组为空，但是默认是block的，点击后会出现奇怪的闪现，懒得找原因了，就加个变量吧。
-				for (var friendObj in friendsData["groupsFriends"][groupId]){
-					var friend = new Element("div");
-					friend.attributes["class"]="Friend";
-					friends.append(friend);
+				var Online = new Array()
+				var Offline = new Array()
+				for (var friendQQ in friendsData["groupsFriends"][groupId]){
+					//alert(friendQQ);
 					
-					var photobox = new Element("div");
-					photobox.attributes["class"]="Photobox";
-					friend.append(photobox);
-					
-					var profilePhoto = new Element("img");
-					profilePhoto.attributes["class"]="ProfilePhoto";
+					var friendButton = initFriend(friendsData["friends"][friendQQ]);
+					if (friendsData["friends"][friendQQ]["status"]=="0"){
+						Online.push(friendButton);
+					}else{
+						Offline.push(friendButton);
+					}
 					//alert("ok");
-					//alert(friendObj["photoAddress"]);
-					profilePhoto.attributes["src"] = friendObj["photoAddress"];
-					photobox.append(profilePhoto);
-					
-					var space = new Element("div");
-					space.attributes["class"]="Space";
-					friend.append(space);
-					
-					var name = new Element("div");
-					name.attributes["class"]="Name";
-					name.text = friendObj["nickName"];
-					friend.append(name);
-					
-					var sign = new Element("div");
-					sign.attributes["class"]="Sign";
-					sign.text = friendObj["Sign"];
-					friend.append(sign);
-					
 					i++;
 				}
 				if(i==0){
 					friends.style["display"] = "none";
 				}
+				for(var i = 0;i<Online.length;i++){
+					friends.append(Online[i]);
+				}
+				for(var i = 0;i<Offline.length;i++){
+					friends.append(Offline[i]);
+				}
+				
 			}
+			initMethod();
+		}
+		
+		function initInterface(userInfo,friendsData){
+			userInfo = JSON.parse(userInfo);
+			//alert(userInfo["QQ"])
+			$(#profilePhoto).attributes["src"]=userInfo["photoAddress"];
+			$(#Name).text = userInfo["nickName"];
+			$(#Sign).text = userInfo["Sign"];
+			/*初始化好友列表*/
+			initGroups(friendsData);
 		}
 		//view.msgbox(#alert,$(.Group).attributes["class"])
 		$(#CloseButton).on("click", function() {
@@ -333,6 +398,7 @@
 				h += 10;
 				if(h > maxH){
 					friends.style["height"] = maxH + "px";
+					friends.style["display"] = "block";
 					return false;
 				}else{
 					friends.style["height"] = h + "px";

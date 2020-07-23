@@ -5,7 +5,7 @@
 	<style type="text/css">
 	body{
 		margin:0px;
-	}
+	}//1234567890
 	#Top {
 		width: 100%;
 		height:107px;
@@ -53,41 +53,46 @@
 		padding-left:10px;
 		padding-top:8px;
 	}
-	#profilePhoto{
+	.ProfilePhoto{
 		border-radius:50%;
 		width:37px;
 		height:37px;
 	}
-	#photobox{
+	.Photobox{
 		//background-color:black;
 		float:left;
 		width:40px;
 		height:40px;
 		//border:1px solid;
 	}
-	#Space{
+	.Space{
 		float:left;
 		width:10px;
 		height:40px;
 	}
-	#Name{
+	.Name{
 		float:left;
 		width:165px;
 		height:20px;
 		font-size:small;
 		font-weight:500;
-		color:white;
+		color:black;
 		//border:1px solid;
 	}
-	#Sign{
+	#Name{
+		color:white;
+	}
+	.Sign{
 		float:left;
 		width:165px;
 		height:20px;
 		//border:1px solid;
-		color:white;
+		color:black;
 		font-size:xx-small;
 	}
-	
+	#Sign{
+		color:white;
+	}
 	#Search{
 		position:absolute;
 		top:83.4px;
@@ -138,7 +143,7 @@
 	}
 	#Main{
 		height:380px;
-		border:1px solid;
+		//border:1px solid;
 		overflow-y:auto;
 	}
 	.Group{
@@ -175,12 +180,21 @@
 	}
 	.Friends{
 		height:80px;
-		border:1px solid;
+		//border:1px solid;
 		overflow-y:hidden;
+		
+	}
+	.FriendButton{
+		width:100%;
+		height:40px;
+		background:none;
+		//color:black;
+		padding:0px;
 	}
 	.Friend{
 		height:40px;
 		//border:1px solid;
+		overflow-y:hidden;
 	}
 	/*
 	#Minimum{
@@ -211,20 +225,159 @@
 	</style>
 	<script type="text/tiscript">
 		self.root.on("ready", function() {
-			var arr = JSON.parse(view.GetFriendsData());
-			alert(arr.groups)
+			//var userInfo = view.GetUserInfo();
+			var userInfo = '{"QQ":1234567890,"Pwd":"","Sign":"okk","photoAddress":"../data/image/p1.jpeg","nickName":"SK","sex":"man","birthday":"1594877431","bloodType":"A","diploma":"无","telephone":"","email":"","address":""}';
+			
+			//var friendsData = view.GetFriendsData();
+			//alert(JSON.parse(view.GetFriendsData()));
+			var friendsData = '{"groups":{"1":"好友","2":"家人","3":"同学"},"groupsFriends":{"1":["1234567891","1234567894"],"2":["1234567892"],"3":["1234567893"]},"friends":{"1234567891":{"FriendQQ":1234567891,"Sign":"perfect1","photoAddress":"../data/image/p2.jpg","nickName":"SK1","groupId":1,"status":1},"1234567892":{"FriendQQ":1234567892,"Sign":"perfect2","photoAddress":"../data/image/p2.jpg","nickName":"SK2","groupId":2,"status":1},"1234567893":{"FriendQQ":1234567893,"Sign":"perfect3","photoAddress":"../data/image/p2.jpg","nickName":"SK3","groupId":3,"status":0},"1234567894":{"FriendQQ":1234567894,"Sign":"perfect4","photoAddress":"../data/image/p2.jpg","nickName":"SK4","groupId":1,"status":0}}}';
+			initInterface(userInfo,friendsData);
+		});
+		
+		function initMethod(){
 			var list = self.$$(.Group>.GroupButton);
 			for (var i=0;i<list.length;i++){
 				list[i].on("click", function() {
-					this.parent.last.style["height"] = "50px";
+					//this.parent.last.style["height"] = "50px";
 					if (this.parent[1].style["display"]=="none"){
+						this.first.first.attributes["src"] = "..//data//image//2.png";
 						Unfoldx(this.parent.last,this.parent.last.length)
 					}else{
+						this.first.first.attributes["src"] = "..//data//image//1.png";
 						Fold(this.parent[1],this.parent.last.length);
 					}
 				});
 			}
-		})
+			var friendButtons = $$(.FriendButton);
+			for(var i = 0;i < friendButtons.length;i++){
+				friendButtons[i].on("click",function(){
+					alert(this.id);
+				});
+			}
+		}
+		
+		function initFriend(friendObj){
+			var friendButton = new Element("button");
+			friendButton.attributes["class"]="FriendButton";
+			friendButton.attributes["id"]=friendObj["FriendQQ"];
+			if(friendObj["status"]=="0"){
+				friendButton.style["background-color"]="white";
+			}
+			//friends.append(friendButton);
+		
+			var friend = new Element("div");
+			friend.attributes["class"]="Friend";
+			friend.attributes["id"]=friendObj["FriendQQ"];
+			friendButton.append(friend);
+			
+			var photobox = new Element("div");
+			photobox.attributes["class"]="Photobox";
+			friend.append(photobox);
+			
+			var profilePhoto = new Element("img");
+			profilePhoto.attributes["class"]="ProfilePhoto";
+			//alert("ok");
+			//alert(friendObj["photoAddress"]);
+			profilePhoto.attributes["src"] = friendObj["photoAddress"];
+			photobox.append(profilePhoto);
+			
+			var space = new Element("div");
+			space.attributes["class"]="Space";
+			friend.append(space);
+			
+			var name = new Element("div");
+			name.attributes["class"]="Name";
+			name.text = friendObj["nickName"];
+			friend.append(name);
+			
+			var sign = new Element("div");
+			sign.attributes["class"]="Sign";
+			sign.text = friendObj["Sign"];
+			friend.append(sign);
+			return friendButton;
+		}
+		
+		function initGroups(friendsData){
+			var groups = $$(.Group);
+			if (groups.length!=0){
+				for(var i = 0;i<groups.length;i++){
+					groups[i].remove();
+				}
+			}
+			
+			//alert(friendsData);
+			friendsData = JSON.parse(friendsData);
+			//alert(friendsData);
+			for (var groupId in friendsData["groups"]){
+				//alert(groupId);
+				var group = new Element("div");
+				group.attributes["class"]="Group";
+				$(#Main).append(group);
+				
+				var groupButton = new Element("button");
+				groupButton.attributes["class"]="GroupButton";
+				group.append(groupButton);
+				
+				var groupButtonDiv = new Element("div");
+				groupButtonDiv.attributes["class"]="GroupButtonDiv";
+				groupButton.append(groupButtonDiv);
+				
+				var groupButtonIcon = new Element("img");
+				groupButtonIcon.attributes["class"]="GroupButtonIcon";
+				groupButtonIcon.attributes["src"] = "..//data//image//1.png";
+				
+				var groupName = new Element("div");
+				groupName.attributes["class"]="GroupName";
+				groupName.text = friendsData.groups[groupId];
+				
+				groupButtonDiv.append(groupButtonIcon);
+				groupButtonDiv.append(groupName);
+				
+				
+				var friends = new Element("div");
+				friends.attributes["class"]="Friends";
+				friends.style["display"]="none";
+				friends.style["height"] = friendsData["groupsFriends"][groupId].length*40+"px";
+				group.append(friends);
+				var i=0;	//这里的i是因为登录之后，有些分组为空，但是默认是block的，点击后会出现奇怪的闪现，懒得找原因了，就加个变量吧。
+				var Online = new Array()
+				var Offline = new Array()
+				for (var friendQQ in friendsData["groupsFriends"][groupId]){
+					//alert(friendQQ);
+					
+					var friendButton = initFriend(friendsData["friends"][friendQQ]);
+					if (friendsData["friends"][friendQQ]["status"]=="0"){
+						Online.push(friendButton);
+					}else{
+						Offline.push(friendButton);
+					}
+					//alert("ok");
+					i++;
+				}
+				if(i==0){
+					friends.style["display"] = "none";
+				}
+				for(var i = 0;i<Online.length;i++){
+					friends.append(Online[i]);
+				}
+				for(var i = 0;i<Offline.length;i++){
+					friends.append(Offline[i]);
+				}
+				
+			}
+			initMethod();
+		}
+		
+		function initInterface(userInfo,friendsData){
+			userInfo = JSON.parse(userInfo);
+			//alert(userInfo["QQ"])
+			$(#profilePhoto).attributes["src"]=userInfo["photoAddress"];
+			$(#Name).text = userInfo["nickName"];
+			$(#Sign).text = userInfo["Sign"];
+			/*初始化好友列表*/
+			initGroups(friendsData);
+		}
+		//view.msgbox(#alert,$(.Group).attributes["class"])
 		$(#CloseButton).on("click", function() {
 		//关闭
 			view.close();
@@ -243,8 +396,9 @@
 			var h = 0;
 			friends.timer(10,function(){
 				h += 10;
-				if(h >= maxH){
+				if(h > maxH){
 					friends.style["height"] = maxH + "px";
+					friends.style["display"] = "block";
 					return false;
 				}else{
 					friends.style["height"] = h + "px";
@@ -258,7 +412,7 @@
 			var h = n*40;
 			$(#Main).timer(10,function(){
 				h -= 10;
-				if(h <= 0){
+				if(h < 0){
 					friends.style["display"] = "none";
 					return false;
 				}else{
@@ -293,10 +447,10 @@
 	<!-- <div id="ManageSurface"> -->
 	<!-- <button id="ManageSurfaceButton">+</button> -->
 	<div id="Info">
-		<div id="photobox" class="photobox">
-			<img id="profilePhoto" class="profilePhoto" src="E:\Technology\Project\MyGo\src\QQ\application\client\data\image\p1.jpeg" />
+		<div id="photobox" class="Photobox">
+			<img id="profilePhoto" class="ProfilePhoto" src="E:\Technology\Project\MyGo\src\QQ\application\client\data\image\p1.jpeg" />
 		</div>
-		<div id="Space">
+		<div id="Space" class="Space">
 		</div>
 		<div id="Name" class="Name" >
 		</div>
@@ -326,48 +480,47 @@
 		</div>
 	</div>
 	<div id="Main">
-		<div class="Group">
-			<button class="GroupButton">
-				<div class="GroupButtonDiv">
-					<div class="GroupButtonIcon">
+		<!-- <div class="Group"> -->
+			<!-- <button class="GroupButton"> -->
+				<!-- <div class="GroupButtonDiv"> -->
+					<!-- <div class="GroupButtonIcon"> -->
 						
-					</div>
-					<div class="GroupName">
-					朋友
-					</div>
-				</div>
-			</button>
-			<div class="Friends">
-				<div class="Friend">
+					<!-- </div> -->
+					<!-- <div class="GroupName"> -->
+					<!-- 朋友 -->
+					<!-- </div> -->
+				<!-- </div> -->
+			<!-- </button> -->
+			<!-- <div class="Friends"> -->
+				<!-- <div class="Friend"> -->
 					
-				</div>
-				<div class="Friend">
+				<!-- </div> -->
+				<!-- <div class="Friend"> -->
 					
-				</div>
-			</div>
-		</div>
-		<div class="Group" >
-			<button class="GroupButton">
-				<div class="GroupButtonDiv">
-					<div class="GroupButtonIcon">
+				<!-- </div> -->
+			<!-- </div> -->
+		<!-- </div> -->
+		<!-- <div class="Group" > -->
+			<!-- <button class="GroupButton"> -->
+				<!-- <div class="GroupButtonDiv"> -->
+					<!-- <div class="GroupButtonIcon"> -->
 						
-					</div>
-					<div class="GroupName">
-					家人
-					</div>
-				</div>
-			</button>
-			<div class="Friends">
-				<div class="Friend">
+					<!-- </div> -->
+					<!-- <div class="GroupName"> -->
+					<!-- 家人 -->
+					<!-- </div> -->
+				<!-- </div> -->
+			<!-- </button> -->
+			<!-- <div class="Friends"> -->
+				<!-- <div class="Friend"> -->
 					
-				</div>
-				<div class="Friend">
+				<!-- </div> -->
+				<!-- <div class="Friend"> -->
 					
-				</div>
-			</div>
-		</div>
+				<!-- </div> -->
+			<!-- </div> -->
+		<!-- </div> -->
 	</div>
-	<div id="test">123</div>
 </div>
 
 </body>

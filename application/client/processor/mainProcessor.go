@@ -16,6 +16,10 @@ type MainProcessor struct {
 	Conn   net.Conn
 }
 
+var (
+	MyMainProcessor *MainProcessor
+)
+
 func (this *MainProcessor) DefFunc() {
 	fmt.Println()
 	this.setCallBackHandler()

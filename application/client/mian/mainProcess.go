@@ -49,12 +49,12 @@ func (this *MainProcess) Run() {
 	this.Window.LoadFile("E://Technology//Project//MyGo//src//QQ//application//client//view//main.html")
 	this.Window.SetTitle("Main")
 	root, err = this.Window.GetRootElement()
-	mainProcessor := &processor.MainProcessor{
+	processor.MyMainProcessor = &processor.MainProcessor{
 		Window: this.Window,
 		Root:   root,
 		Conn:   this.Conn,
 	}
-	mainProcessor.DefFunc()
+	processor.MyMainProcessor.DefFunc()
 	this.Window.Show()
 	this.Window.Run()
 }

@@ -14,6 +14,7 @@ type UserProcessor struct {
 	Conn    net.Conn
 	QQ      int
 	Friends []int
+	//UserInfo message.User
 }
 
 func (this *UserProcessor) LoginProcess(mes message.Message) (err error) {
@@ -39,6 +40,7 @@ func (this *UserProcessor) LoginProcess(mes message.Message) (err error) {
 		}
 	} else {
 		this.QQ = user.QQ
+		//this.UserInfo = user
 		MyUserManager.AddOnlineUser(this)
 
 		fmt.Println(err)

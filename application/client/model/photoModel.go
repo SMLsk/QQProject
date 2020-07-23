@@ -1,7 +1,7 @@
 package model
 
 import (
-	"fmt"
+	// "fmt"
 	// "fmt"
 	"io/ioutil"
 	"net/http"
@@ -15,7 +15,7 @@ type PhotoModel struct {
 func (this *PhotoModel) DownPhoto(address string) (localAddress string) {
 	// imgUrl := "http://simisimisimiru.gitee.io/imagebed/3.png"
 	localAddress = "../data/image/" + path.Base(address)
-	fmt.Println(localAddress, address)
+	// fmt.Println(localAddress, address)
 	_, err := os.Stat(localAddress)
 	if err != nil {
 		res, _ := http.Get(address)

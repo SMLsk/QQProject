@@ -37,7 +37,8 @@ func (this *LoginProcessor) setElementHandler() {
 			return sciter.NewValue("error")
 		}
 		// fmt.Println(model.MyFriendsManager)
-		go serverProcessMes(this.Conn)
+		serverProcessor := &ServerProcessor{}
+		go serverProcessor.receiveMes(this.Conn)
 		return sciter.NewValue("ok")
 	})
 
