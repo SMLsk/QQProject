@@ -94,33 +94,6 @@
         //设置元素的文本
         //注意这里需先将元素添加到dom树上，然后再设置元素文本
         li4.text = "444";
-		{
-			"groups":{
-				"1":"好友","2":"家人","3":"同学"
-			},
-			"groupsFriends":{
-			"1":[	
-					{"FriendQQ":1234567891,
-					"Sign":"perfect1",
-					"photoID":2,
-					"nickName":"SK1",
-					"groupId":1,
-					"status":1},
-					{"FriendQQ":1234567894,
-					"Sign":"perfect4",
-					"photoID":2,
-					"nickName":"SK4",
-					"groupId":1,
-					"status":1}
-				],
-			"2":[	
-					{"FriendQQ":1234567892,"Sign":"perfect2","photoID":2,"nickName":"SK2","groupId":2,"status":1}
-				],
-			"3":[	
-					{"FriendQQ":1234567893,"Sign":"perfect3","photoID":2,"nickName":"SK3","groupId":3,"status":1}
-				]
-			}
-		}
 
         //这里直接追加html内容，不要加引号
         $(#box > ul).$append(<li>555</li>);

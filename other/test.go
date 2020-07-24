@@ -2,29 +2,36 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-	// "fmt"
-	// "github.com/sciter-sdk/go-sciter"
-	// "github.com/sciter-sdk/go-sciter/window"
+	// "time"
+
+	// "net/http"
+	"github.com/sciter-sdk/go-sciter"
+	"github.com/sciter-sdk/go-sciter/window"
 )
 
 func main() {
-
-	// Window, err := window.New(sciter.DefaultWindowCreateFlag, &sciter.Rect{1190, 70, 1480, 630})
-	// if err != nil {
-	// 	// log.Fatal(err)
-	// }
-	// Window.LoadFile("E://Technology//Project//MyGo//src//QQ//application//client//view//mainTest.html")
-	// Window.SetTitle("Main")
-	// root, _ := Window.GetRootElement()
-	// setWinHandler(Window, root)
-	// Window.Show()
-	// Window.Run()
+	startWindow()
 }
 
-// func setWinHandler(w *window.Window, root *sciter.Element) {
-// 	w.DefineFunction("GetFriendsData", func(args ...*sciter.Value) *sciter.Value {
-
-// 		return sciter.NewValue("{'a':'b'}")
-// 	})
-// }
+func startWindow() {
+	Window, err := window.New(sciter.DefaultWindowCreateFlag, &sciter.Rect{1190, 70, 1480, 630})
+	if err != nil {
+		// log.Fatal(err)
+	}
+	Window.LoadFile("./test.html")
+	Window.SetTitle("Main")
+	// root, _ := Window.GetRootElement()
+	Window.DefineFunction("startNewWindow", func(args ...*sciter.Value) *sciter.Value {
+		Window2, err := window.New(sciter.DefaultWindowCreateFlag, &sciter.Rect{1190, 70, 1480, 630})
+		if err != nil {
+			fmt.Println(err)
+		}
+		Window2.LoadFile("./test.html")
+		Window2.SetTitle("Main")
+		Window2.Show()
+		Window2.Run()
+		return sciter.NewValue("0")
+	})
+	Window.Show()
+	Window.Run()
+}

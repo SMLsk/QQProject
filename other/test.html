@@ -1,119 +1,26 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>view对象学习</title>
 
-<html>
-	<head>
-		<title>div展开收缩代码</title>
-		<style>
-		* { 
-			margin:0; 
-			padding:0;
-		}
-		body { 
-			text-align:center; 
-			font:75% Verdana, Arial, Helvetica, sans-serif;
-		}
-		h1 { 
-			font:125% Arial, Helvetica, sans-serif; 
-			text-align:left; 
-			font-weight:bolder; 
-			background:#333;  
-			padding:3px; 
-			display:block; 
-			color:#99CC00
-		}
-		.class1 { 
-			width:40%; 
-			background:#CCC; 
-			position:relative; 
-			margin:0 auto; 
-			padding:5px;
-		}
-		span { 
-			position:absolute; 
-			right:10px; top:8px; 
-			cursor:pointer; 
-			color:yellow;
-		}
-		p { 
-			text-align:left; 
-			line-height:20px; 
-			background:#333; 
-			padding:3px; 
-			margin-top:5px; 
-			color:#99CC00
-		}
-		#class1content { 
-			height:300px;
-			overflow:hidden
-		}
-		#t1{
-			border:1px solid red;
-		}
-		#t2{
-			border:1px solid;
-			height:20px;
-		}
-		</style>
-		<script>
-			//获取元素函数
-			function $(element){
-				return element = document.getElementById(element);
-			}
-			//
-			function $D(){
-				var d=$('class1content');
-				var h=d.offsetHeight;
-				var maxh=300;
-				function dmove(){
-				h+=50; //设置层展开的速度
-				if(h>=maxh){
-					d.style.height='300px';
-					clearInterval(iIntervalId);
-				}else{
-					d.style.display='block';
-					d.style.height=h+'px';
-				}
-				}
-				iIntervalId=setInterval(dmove,120);
-			}
-			function $D2(){
-				var d=$('class1content');
-				var h=d.offsetHeight;
-				var maxh=300;
-				function dmove(){
-					h-=50;//设置层收缩的速度
-					if(h<=0){
-					d.style.display='none';
-					clearInterval(iIntervalId);
-				}else{
-					d.style.height=h+'px';
-				}
-				}
-				iIntervalId=setInterval(dmove,1);
-			}
-			function $use(){
-				var d=$('class1content');
-				var sb=$('stateBut');
-				if(d.style.display=='none'){
-					$D();
-					sb.innerHTML='展开';
-				}else{
-					$D2();
-					sb.innerHTML='收缩';
-				}
-			}
-		</script>
-	</head>
-	<body>
-		<div class="class1">
-			<h1>div展开收缩效果</h1>
-			<span id="stateBut" onClick="$use()">展开</span>
-			<p id="class1content">小蜗牛</p>
-		</div>
-		
-		
-		<div id="t1">
-			<div id="t2">
-		
-			</div>
-		</div>
-	</body>
+</head>
+<body>
+  
+   
+  <div class="br">
+      <button id="win1">窗口</button>
+      <br>
+  </div>
+  <script type="text/tiscript">
+
+	  view.root.on("ready", function() { 
+        //新窗口
+        $(#win1).on("click", function() {
+            view.startNewWindow()
+        });
+       
+	});
+</script>
+</body>
+</html>
