@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html window-frame="solid-with-shadow">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <style type="text/css">
+		body{
+			margin:0px;
+		}
+		button{
+			background:none;
+			border:0px;
+		}
+		#frame{
+			height:40px;
+			background-color:#E1AA8C;
+			//border:1px solid;
+			padding-left:100px;
+		}
+		#name{
+			float:left;
+			height:30px;
+			width:300px;
+			font-size:medium;
+			font-weight:400;
+			text-align:center;
+			margin-top:6px;
+			color:white;
+			//border:0.5px solid;
+		}
+		#close{
+			float:right;
+			height:37px;
+			weight:35px;
+			//border:0.5px solid;
+		}
+		#closeButton{
+			float:right;
+			border:0px;
+			height:35px;
+			weight:35px;
+			background:none;
+			color:white;
+		}
+		#main{
+			height:486px;
+			background-color:#E6EEF6;
+			border:1px solid;
+		}
+		#left{
+			float:left;
+			width:520px;
+			height:100%;
+			border-right:0.5px solid #D4DBE2;
+		}
+		#message{
+			height:344px;
+			//border-bottom:0.5px solid;
+			
+		}
+		#av{
+			background-color:#E1AA8C;
+			height:40px;
+			//border-bottom:0.5px solid;
+		}
+		.avicon{
+			margin-right:20px;
+			margin-top:6px;
+			float:right;
+			height:30px;
+			width:30px;
+		}
+		.avButton{
+			background:none;
+			border:0px;
+		}
+		#messageList{
+			overflow:auto;
+		}
+		#sendMessage{
+			height:143px;
+			//border-bottom:0.5px solid;
+		}
+		#extendedFunction{
+			height:27px;
+			//border-bottom:0.5px solid;
+			border-top:0.5px solid #D4DBE2;
+		}
+		.mesFunction{
+			height:26px;
+			width:26px;
+		}
+		.mesFunctionButton{
+			background:none;
+			border:0px;
+		}
+		#inputMessageDiv{
+			height:80px;
+			//border-bottom:0.5px solid;
+			//overflow-y:auto;
+		}
+		#inputMessage{
+			height:79px;
+			width:100%;
+			overflow-y:auto;
+			background:none;
+			font-size:medium;
+		}
+		#messageButton{
+			height:32px;
+			//border-top:0.5px solid;
+		}
+	</style>
+	<script type="text/tiscript">
+		self.root.on("ready",function(){
+			initMethod();
+		});
+		view.isResizeable = false;
+		$(#close).on("click",function(){
+			view.close();
+		});
+		function initMethod(){
+			var avButtons = $$(.avButton)
+			for(var i=0;i<avButtons.length;i++){
+				avButtons[i].on("click",function(){
+					view.msgbox(#alert,this.id);
+				});
+			}
+			$(#sendButton).on("click",function(){
+				//alert($(#inputMessage).text);
+				//调用Go的方法，传入消息，暂时不支持其他消息
+				this.sendMessage($(#inputMessage).text);
+				//调用向消息列表添加消息的函数，该函数应该有消息内容、发送人(对方or自己)
+				
+			});
+			$(#bottomCloseButton).on("click",function(){
+				view.close();
+			});
+		}
+		function alert(str){
+			view.msgbox(#alert,str);
+		}
+	</script>
+</head>
+<body role="window-caption">
+	<div id="frame">
+		<div id="name">ok</div>
+		<div id="close"><button id="closeButton">X</button></div>
+	</div>
+	<div id="main">
+		<div id="left">
+			<div id="message">
+				<div id="av">
+					<div class="avicon"><button id="other" class="avButton"><img style="margin-top:10px;height:10px;width:30px"src="E:\Technology\Project\MyGo\src\QQ\other\other.png"/></button></div>
+					<div class="avicon"><button id="vedio" class="avButton"><img src="E:\Technology\Project\MyGo\src\QQ\other\video.png"/></button></div>
+					<div class="avicon"><button id="voice" class="avButton"><img style="width:27px;height:27px;" src="E:\Technology\Project\MyGo\src\QQ\other\voice.png"/></button></div>
+				</div>
+				<div id="messageList">
+
+				</div>
+			</div>
+			<div id="sendMessage">
+				<div id="extendedFunction">
+					<div class="mesFunction"><button id="expression" class="mesFunctionButton"><img style="width:25px;height:24px;"src="E:\Technology\Project\MyGo\src\QQ\other\expression.png"/></button></div>
+				</div>
+				<div id="inputMessageDiv">
+					<textarea id="inputMessage"></textarea> 
+				</div>
+				<div id="messageButton">
+					<div id="send" style="float:right;margin-right:10px;width:60px;background-color:#D98759;"><button id="sendButton" style="color:white;text-align:center">发送</button></div>
+					<div id="bottomClose" style="float:right;margin-right:10px;width:50px;background-color:#EDF3F8;"><button id="bottomCloseButton" >关闭</button></div>
+				</div>
+			</div>
+		</div>
+		<div id="right"></div>
+	</div>
+</body>
+</html>

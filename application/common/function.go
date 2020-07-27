@@ -32,10 +32,17 @@ func Md5(str string) (md5Str string) {
 	return
 }
 
-func Atoi(str string) (i int) {
-	i, err := strconv.Atoi(str)
-	if err != nil {
+func Atoi(str interface{}) (i int) {
+	if str2, ok := str.(string); ok {
+		var err error
+		i, err = strconv.Atoi(str2)
+		if err != nil {
+			fmt.Println(err)
+		}
+		return
+	} else {
+		i = str.(int)
 		return
 	}
-	return
+
 }

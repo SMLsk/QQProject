@@ -14,24 +14,13 @@ func main() {
 }
 
 func startWindow() {
-	Window, err := window.New(sciter.DefaultWindowCreateFlag, &sciter.Rect{1190, 70, 1480, 630})
+	fmt.Println("")
+	Window, err := window.New(sciter.DefaultWindowCreateFlag, &sciter.Rect{300, 100, 950, 630})
 	if err != nil {
 		// log.Fatal(err)
 	}
-	Window.LoadFile("./test.html")
+	Window.LoadFile("E://Technology//Project//MyGo//src//QQ//application//client//view//dialog0Test.html")
 	Window.SetTitle("Main")
-	// root, _ := Window.GetRootElement()
-	Window.DefineFunction("startNewWindow", func(args ...*sciter.Value) *sciter.Value {
-		Window2, err := window.New(sciter.DefaultWindowCreateFlag, &sciter.Rect{1190, 70, 1480, 630})
-		if err != nil {
-			fmt.Println(err)
-		}
-		Window2.LoadFile("./test.html")
-		Window2.SetTitle("Main")
-		Window2.Show()
-		Window2.Run()
-		return sciter.NewValue("0")
-	})
 	Window.Show()
 	Window.Run()
 }

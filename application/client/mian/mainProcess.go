@@ -55,6 +55,7 @@ func (this *MainProcess) Run() {
 		Conn:   this.Conn,
 	}
 	processor.MyMainProcessor.DefFunc()
+	processor.MyDialogProcessor = processor.NewDialogProcessor()
 	this.Window.Show()
 	this.Window.Run()
 }
