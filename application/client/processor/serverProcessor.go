@@ -49,7 +49,15 @@ func (this *ServerProcessor) serverProcessMes(mes message.Message) {
 		MyMainProcessor.Window.Call("initGroups", sciter.NewValue(string(data)))
 		fmt.Println(mes)
 	case message.ShortMessageMesType:
-		fmt.Println(mes)
+		var shortMessageMes message.ShortMessageMes
+		json.Unmarshal([]byte(mes.Data), &shortMessageMes)
+		//判断该消息的来源好友的对话框是否存在
+		//若存在，则直接调用对应对话框，并推送
+		dialog, ok := MyDialogProcessor.Dialogs[shortMessageMes.SenderId]
+		if ok {
+			dialog.Window.Call("add", sciter.NewValue(mes.Data))
+		}
+		//若不存在，则加入消息列表，暂时还没写
 	default:
 		fmt.Println("ERROR")
 	}

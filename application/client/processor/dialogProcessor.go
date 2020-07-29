@@ -70,12 +70,13 @@ func (this *Dialog) setElementHandler() {
 	sendButton.DefineMethod("sendMessage", func(args ...*sciter.Value) *sciter.Value {
 		//fmt.Println("ok")
 		content := args[0].String()
-		err := model.MySmsModel.SendSms(this.Type, this.Id, content)
+		messageString, err := model.MySmsModel.SendSms(this.Type, this.Id, content)
 		//调用SmsModel的方法发送消息
 		if err != nil {
 			fmt.Println(err)
 		}
-		return sciter.NewValue("0")
+		this.Window.Call("add", sciter.NewValue(messageString))
+		return sciter.NewValue(0)
 	})
 }
 
@@ -90,5 +91,10 @@ func (this *Dialog) setWinHandler() {
 		data, _ := json.Marshal(model.MyFriendsManager.Friends[this.Id])
 		fmt.Println(string(data))
 		return sciter.NewValue(string(data))
+	})
+	this.Window.DefineFunction("GetUserInfo", func(args ...*sciter.Value) *sciter.Value {
+		user, _ := json.Marshal(model.MyUserModel.UserInfo)
+		fmt.Println(string(user))
+		return sciter.NewValue(string(user))
 	})
 }

@@ -82,7 +82,7 @@
 		.MessageItem{
 			//height:50px;
 			width:100%;
-			border:0.5px solid;
+			//border:0.5px solid;
 			padding-top:5px;
 			overflow:auto;
 		}
@@ -101,7 +101,9 @@
 			float:left;
 			height:40px;
 			width:200px;
-			border:0.5px solid red;
+			border:0.5px solid;
+			border-radius:10px;
+			//-moz-border-radius:25px;
 		}
 		.MessageContent{
 			height:40px;
@@ -150,14 +152,18 @@
 		var dialogInfo;
 		self.root.on("ready",function(){
 			dialogInfo = '{"FriendQQ":1234567891,"Sign":"perfect1","photoAddress":"../data/image/p2.jpg","nickName":"SK1","groupId":1,"status":1}';
-			var message = '{"type":0,"senderId":1234567890,"recipient":1234567891,"content":"1234567890123456789012","rows":3}';
-			var message2 = '{"type":0,"senderId":1234567891,"recipient":1234567890,"content":"1234567890123456789012","rows":3}';
-			var message3 = '{"type":0,"senderId":1234567891,"recipient":1234567890,"content":"1234567890123456789012","rows":3}';
+			var message = '{"type":0,"senderId":1234567890,"recipient":1234567891,"content":"1","rows":1,"length":1}';
+			var message2 = '{"type":0,"senderId":1234567891,"recipient":1234567890,"content":"123456789012345678","rows":2,"length":18}';
+			var message3 = '{"type":0,"senderId":1234567891,"recipient":1234567890,"content":"1234567890123456789012","rows":2,"length":22}';
 			dialogInfo = JSON.parse(dialogInfo);
 			initInterface(dialogInfo);
 			add(message);
 			add(message2);
 			add(message2);
+			add(message2);
+			add(message2);
+			add(message2);
+			add(message3);
 			add(message2);
 			add(message2);
 			initMethod();
@@ -183,6 +189,7 @@
 			messageContentDiv.style["height"] = message["rows"] * 20 + "px";
 			
 			
+			
 			var messageContent = new Element("div");
 			messageContent.attributes["class"] = "MessageContent";
 			messageContent.text = message["content"];
@@ -192,15 +199,27 @@
 				profilePhotoDiv.style["float"] = "right";
 				messageContentDiv.style["float"] = "right";
 			}
+			if(message["length"]<=18){
+				messageContentDiv.style["width"] = message["length"] * 11+ "px";
+				messageContent.style["width"] = message["length"] * 11 + "px";
+			}
 			messageContentDiv.append(messageContent);
 			profilePhotoDiv.append(profilePhoto);
 			messageItem.append(profilePhotoDiv);
 			messageItem.append(messageContentDiv);
 			
 			$(#messageList).append(messageItem);
+			//$(#messageList).style["scrollTop"] = $(#messageList).style["height"];
+			
 		}
 		
-		
+		/*$(#messageList).on("scroll",function(evt){
+			alert(evt.SCROLL_POS);
+		});*/
+		$(#messageList).scrollIntoView(1)
+		//for (var name in  $(#messageList).scrollTop){
+			stdout.println($(#messageList).scrollTop());
+		//}
 		view.isResizeable = false;
 		$(#close).on("click",function(){
 			view.close();
@@ -247,16 +266,16 @@
 					<div class="avicon"><button id="voice" class="avButton"><img style="width:27px;height:27px;" src="E:\Technology\Project\MyGo\src\QQ\other\voice.png"/></button></div>
 				</div>
 				<div id="messageList">
-					<!-- <div class="MessageItem"> -->
-						<!-- <div class="ProfilePhotoDiv"> -->
-							<!-- <img class="ProfilePhoto"> -->
+					<div class="MessageItem">
+						<div class="ProfilePhotoDiv">
+							<img class="ProfilePhoto">
 							
-							<!-- </img> -->
-						<!-- </div> -->
-						<!-- <div class="MessageContentDiv"> -->
-							<!-- <textarea class="MessageContent" >宋宋宋宋宋宋宋宋宋宋宋宋宋宋</textarea> -->
-						<!-- </div> -->
-					<!-- </div> -->
+							</img>
+						</div>
+						<div class="MessageContentDiv">
+							<textarea class="MessageContent" cols="26">宋宋宋宋宋宋宋宋宋宋宋宋宋宋</textarea>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div id="sendMessage">

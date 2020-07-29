@@ -74,13 +74,17 @@
 			border:0px;
 		}
 		#messageList{
-			overflow:auto;
+			height:300px;
+			border:0.5px solid;
+			overflow-y:auto;
+			//overflow:hidden;
 		}
 		.MessageItem{
-			height:50px;
+			//height:50px;
 			width:100%;
-			border:0.5px solid;
+			//border:0.5px solid;
 			padding-top:5px;
+			overflow:hidden;
 		}
 		.ProfilePhotoDiv{
 			float:left;
@@ -97,7 +101,9 @@
 			float:left;
 			height:40px;
 			width:200px;
-			border:0.5px solid red;
+			margin:5px;
+			//border:0.5px solid;
+			//border-radius:10px;
 		}
 		.MessageContent{
 			height:40px;
@@ -143,17 +149,67 @@
 		}
 	</style>
 	<script type="text/tiscript">
+		var dialogInfo;
+		var userInfo
 		self.root.on("ready",function(){
-			var dialogInfo = view.GetdialogInfo();
+			dialogInfo = view.GetdialogInfo();
+			userInfo = view.GetUserInfo();
+			dialogInfo = JSON.parse(dialogInfo);
+			userInfo = JSON.parse(userInfo);
 			initInterface(dialogInfo);
 			initMethod();
 		});
+		function add(message){
+			message = JSON.parse(message);
+			var messageItem = new Element("div");
+			messageItem.attributes["class"] = "MessageItem";
+			messageItem.style["height"] = (message["rows"]*20 + 10) + "px";
+			
+			
+			var profilePhotoDiv = new Element("div");
+			profilePhotoDiv.attributes["class"] = "ProfilePhotoDiv";
+			
+			
+			var profilePhoto = new Element("img");
+			profilePhoto.attributes["class"] = "ProfilePhoto";
+			
+			
+			
+			var messageContentDiv = new Element("div");
+			messageContentDiv.attributes["class"] = "MessageContentDiv";
+			messageContentDiv.style["height"] = message["rows"] * 20 + "px";
+			
+			
+			var messageContent = new Element("div");
+			messageContent.attributes["class"] = "MessageContent";
+			messageContent.text = message["content"];
+			messageContent.style["height"] = message["rows"] * 20 + "px";
+			
+			if (message["senderId"] != dialogInfo["FriendQQ"]){
+				profilePhotoDiv.style["float"] = "right";
+				messageContentDiv.style["float"] = "right";
+				profilePhoto.attributes["src"] = userInfo["photoAddress"];
+			}else{
+				profilePhoto.attributes["src"] = dialogInfo["photoAddress"];
+			}
+			if(message["length"]<=23){
+				messageContentDiv.style["width"] = message["length"] * 10+ "px";
+				messageContent.style["width"] = message["length"] * 10 + "px";
+			}
+			messageContentDiv.append(messageContent);
+			profilePhotoDiv.append(profilePhoto);
+			messageItem.append(profilePhotoDiv);
+			messageItem.append(messageContentDiv);
+			
+			$(#messageList).append(messageItem);
+		}
+		
+		
 		view.isResizeable = false;
 		$(#close).on("click",function(){
 			view.close();
 		});
 		function initInterface(dialogInfo){
-			dialogInfo = JSON.parse(dialogInfo)
 			$(#name).text=dialogInfo.nickName;
 		}
 		function initMethod(){
@@ -195,7 +251,16 @@
 					<div class="avicon"><button id="voice" class="avButton"><img style="width:27px;height:27px;" src="E:\Technology\Project\MyGo\src\QQ\other\voice.png"/></button></div>
 				</div>
 				<div id="messageList">
-
+					<!-- <div class="MessageItem"> -->
+						<!-- <div class="ProfilePhotoDiv"> -->
+							<!-- <img class="ProfilePhoto"> -->
+							
+							<!-- </img> -->
+						<!-- </div> -->
+						<!-- <div class="MessageContentDiv"> -->
+							<!-- <textarea class="MessageContent" >宋宋宋宋宋宋宋宋宋宋宋宋宋宋</textarea> -->
+						<!-- </div> -->
+					<!-- </div> -->
 				</div>
 			</div>
 			<div id="sendMessage">
