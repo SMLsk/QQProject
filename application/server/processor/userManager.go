@@ -41,7 +41,7 @@ func (this *UserManager) GetAllOnlineUser() map[int]*UserProcessor {
 func (this *UserManager) GetOnlineUserByQQ(qq int) (up *UserProcessor, err error) {
 	up, ok := this.onlineUsers[qq]
 	if !ok {
-		err = errors.New("用户不存在")
+		err = errors.New("用户不在线")
 		return
 	}
 	return

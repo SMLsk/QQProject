@@ -1,6 +1,8 @@
 package processor
 
 import (
+	"QQ/application/client/model"
+	"encoding/json"
 	"fmt"
 
 	"github.com/sciter-sdk/go-sciter"
@@ -66,9 +68,13 @@ func (this *Dialog) DefFunc() {
 func (this *Dialog) setElementHandler() {
 	sendButton, _ := this.Root.SelectById("sendButton")
 	sendButton.DefineMethod("sendMessage", func(args ...*sciter.Value) *sciter.Value {
-		fmt.Println("ok")
-		message := args[0].String()
-		fmt.Println(message)
+		//fmt.Println("ok")
+		content := args[0].String()
+		err := model.MySmsModel.SendSms(this.Type, this.Id, content)
+		//调用SmsModel的方法发送消息
+		if err != nil {
+			fmt.Println(err)
+		}
 		return sciter.NewValue("0")
 	})
 }
@@ -79,4 +85,10 @@ func (this *Dialog) setCallBackHandler() {
 
 func (this *Dialog) setWinHandler() {
 	//判断为好友对话之后，通过id获取好友信息，并传给前端
+	this.Window.DefineFunction("GetdialogInfo", func(args ...*sciter.Value) *sciter.Value {
+		//model.MyFriendsManager.Friends[this.Id]
+		data, _ := json.Marshal(model.MyFriendsManager.Friends[this.Id])
+		fmt.Println(string(data))
+		return sciter.NewValue(string(data))
+	})
 }

@@ -48,6 +48,8 @@ func (this *ServerProcessor) serverProcessMes(mes message.Message) {
 		data, _ := json.Marshal(model.MyFriendsManager)
 		MyMainProcessor.Window.Call("initGroups", sciter.NewValue(string(data)))
 		fmt.Println(mes)
+	case message.ShortMessageMesType:
+		fmt.Println(mes)
 	default:
 		fmt.Println("ERROR")
 	}

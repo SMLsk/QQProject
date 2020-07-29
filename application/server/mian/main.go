@@ -13,6 +13,7 @@ import (
 func init() {
 	dao.MyDao = dao.NewDao()
 	processor.MyUserManager = processor.NewUserManager()
+	processor.MySmsProcessor = &processor.SmsProcessor{}
 }
 
 func main() {

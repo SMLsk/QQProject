@@ -59,6 +59,10 @@ func (this *MainProcess) MesProcess(mes message.Message) (err error) {
 		// if err != nil {
 		// 	return
 		// }
+	case message.ShortMessageMesType:
+		fmt.Println(mes)
+		err = processor.MySmsProcessor.Transpond(mes)
+		return
 	default:
 		fmt.Println("未知类型信息")
 	}

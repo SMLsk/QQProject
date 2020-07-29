@@ -6,6 +6,7 @@ const (
 	RegisterMesType         = "RegisterMes"
 	RegisterResType         = "RegisterRes"
 	NotifyUserStatusMesType = "NotifyUserStatusMes"
+	ShortMessageMesType     = "ShortMessageMes"
 )
 
 const (
@@ -41,6 +42,14 @@ type RegisterRes struct {
 }
 
 type NotifyUserStatusMes struct {
-	QQ     int `json:"qq`
-	Status int `json:"status`
+	QQ     int `json:"qq"`
+	Status int `json:"status"`
+}
+
+type ShortMessageMes struct {
+	//私聊为0，群聊为1
+	Type        int    `json:"type"`
+	SenderId    int    `json:"senderId"`
+	RecipientId int    `json:"recipient"`
+	Content     string `json:"content"`
 }

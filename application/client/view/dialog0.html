@@ -76,6 +76,35 @@
 		#messageList{
 			overflow:auto;
 		}
+		.MessageItem{
+			height:50px;
+			width:100%;
+			border:0.5px solid;
+			padding-top:5px;
+		}
+		.ProfilePhotoDiv{
+			float:left;
+			width:40px;
+			height:40px;
+		}
+		.ProfilePhoto{
+			border-radius:50%;
+			width:37px;
+			height:37px;
+			background-color:black;
+		}
+		.MessageContentDiv{
+			float:left;
+			height:40px;
+			width:200px;
+			border:0.5px solid red;
+		}
+		.MessageContent{
+			height:40px;
+			width:200px;
+			overflow-y:hidden;
+			word-wrap:break-word;
+		}
 		#sendMessage{
 			height:143px;
 			//border-bottom:0.5px solid;
@@ -95,12 +124,15 @@
 		}
 		#inputMessageDiv{
 			height:80px;
+			width:520px;
 			//border-bottom:0.5px solid;
 			//overflow-y:auto;
 		}
 		#inputMessage{
 			height:79px;
 			width:100%;
+			//white-space:pre-line;
+			word-wrap:break-word;
 			overflow-y:auto;
 			background:none;
 			font-size:medium;
@@ -112,12 +144,18 @@
 	</style>
 	<script type="text/tiscript">
 		self.root.on("ready",function(){
+			var dialogInfo = view.GetdialogInfo();
+			initInterface(dialogInfo);
 			initMethod();
 		});
 		view.isResizeable = false;
 		$(#close).on("click",function(){
 			view.close();
 		});
+		function initInterface(dialogInfo){
+			dialogInfo = JSON.parse(dialogInfo)
+			$(#name).text=dialogInfo.nickName;
+		}
 		function initMethod(){
 			var avButtons = $$(.avButton)
 			for(var i=0;i<avButtons.length;i++){
@@ -130,7 +168,7 @@
 				//调用Go的方法，传入消息，暂时不支持其他消息
 				//alert("ok");
 				$(#sendButton).sendMessage($(#inputMessage).text);
-				
+				$(#inputMessage).text="";
 				//调用向消息列表添加消息的函数，该函数应该有消息内容、发送人(对方or自己)
 				
 			});
@@ -145,7 +183,7 @@
 </head>
 <body role="window-caption">
 	<div id="frame">
-		<div id="name">ok</div>
+		<div id="name"></div>
 		<div id="close"><button id="closeButton">X</button></div>
 	</div>
 	<div id="main">

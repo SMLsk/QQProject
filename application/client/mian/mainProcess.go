@@ -56,6 +56,7 @@ func (this *MainProcess) Run() {
 	}
 	processor.MyMainProcessor.DefFunc()
 	processor.MyDialogProcessor = processor.NewDialogProcessor()
+	model.MySmsModel = model.NewSmsModel(this.Conn, model.MyUserModel.UserInfo.QQ)
 	this.Window.Show()
 	this.Window.Run()
 }
