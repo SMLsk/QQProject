@@ -98,3 +98,19 @@ func (this *Dao) ExecuteDqlOne(sql string) (res map[string]string, err error) {
 	}
 	return
 }
+
+func (this *Dao) ExecuteDml(sql string) (rowsAffected int64, err error) {
+	res, err := this.Db.Exec(sql)
+	if err != nil {
+		// fmt.Println(err)
+		return
+	}
+	rowsAffected, err = res.RowsAffected()
+	if err != nil {
+		return
+	}
+	if rowsAffected == 0 {
+		err = errors.New("无效语句")
+	}
+	return
+}

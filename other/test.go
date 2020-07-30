@@ -1,13 +1,13 @@
 package main
 
 import (
+	"QQ/application/common/message"
+	"QQ/application/server/dao"
+	"QQ/application/server/model"
+	"encoding/json"
 	"fmt"
-	"math"
-	"unicode"
-	// "time"
-	// "net/http"
-	// "github.com/sciter-sdk/go-sciter"
-	// "github.com/sciter-sdk/go-sciter/window"
+	"strings"
+	// "strings"
 )
 
 func main() {
@@ -24,15 +24,28 @@ func startWindow() {
 	// Window.SetTitle("Main")
 	// Window.Show()
 	// Window.Run()
-	str := "1234567890123456789012"
-	var size float64
-	for _, c := range str {
-		if unicode.Is(unicode.Han, c) {
-			size += 2
-		} else {
-			size += 1
+	fmt.Println("")
+	dao.MyDao = dao.NewDao()
+	MyTemporaryMessage := &model.TemporaryMessage{}
+	// fmt.Println()
+	messages, _ := MyTemporaryMessage.GetMessageByqq(1234567892)
+	for i := 0; i < len(messages); i++ {
+		temp := messages[i]
+		fmt.Println(temp)
+		var mes message.Message
+		err := json.Unmarshal(temp, &mes)
+		if err != nil {
+			fmt.Println(err)
 		}
 	}
-	rows := math.Ceil(size/24) + 1
-	fmt.Println(size, rows)
+
+	a := `{"type":"ShortMessageMes","data":"{\"type\":0,\"senderId\":1234567890,\"recipient\":1234567894,\"content\":\"宋魁\",\"rows\":2,\"length\":4,\"chartGroupId\":0,\"time\":1596095167}"}`
+	a = strings.ReplaceAll(a, `\`, `\\`)
+	fmt.Println(a)
+	// var mes message.Message
+	// err := json.Unmarshal([]byte(temp), &mes)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+
 }

@@ -11,9 +11,10 @@ import (
 )
 
 type UserProcessor struct {
-	Conn    net.Conn
-	QQ      int
-	Friends []int
+	Conn     net.Conn
+	QQ       int
+	Friends  []int
+	Transfer *utils.Transfer
 	//UserInfo message.User
 }
 
@@ -55,16 +56,17 @@ func (this *UserProcessor) LoginProcess(mes message.Message) (err error) {
 		if err != nil {
 			return
 		}
+
 	}
 
 	// fmt.Println(loginRes)
 	data, err := common.AssembleMes(message.LoginResType, loginRes)
-
-	transfer := &utils.Transfer{
-		Conn: this.Conn,
+	err = this.Transfer.WritePkg(data)
+	if err != nil {
+		return
 	}
+	err = this.NotifyMeMessage()
 
-	err = transfer.WritePkg(data)
 	return
 }
 
@@ -111,11 +113,20 @@ func (this *UserProcessor) NotifyMeUserStatus(qq int, status int) (err error) {
 	if err != nil {
 		return err
 	}
-
-	transfer := &utils.Transfer{
-		Conn: this.Conn,
-	}
-	err = transfer.WritePkg(data)
+	err = this.Transfer.WritePkg(data)
 	fmt.Println("1", err)
+	return
+}
+
+func (this *UserProcessor) NotifyMeMessage() (err error) {
+	messageList, err := model.MyTemporaryMessage.GetMessageByqq(this.QQ)
+	length := len(messageList)
+	for i := 0; i < length; i++ {
+		err = this.Transfer.WritePkg(messageList[i])
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+	fmt.Println("已发送暂存信息")
 	return
 }

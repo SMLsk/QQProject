@@ -43,7 +43,8 @@ func (this *MainProcess) MesProcess(mes message.Message) (err error) {
 	case message.LoginMesType:
 		fmt.Println("成功获取type")
 		userProcess := &processor.UserProcessor{
-			Conn: this.Conn,
+			Conn:     this.Conn,
+			Transfer: &utils.Transfer{Conn: this.Conn},
 		}
 		err = userProcess.LoginProcess(mes)
 		if err != nil {

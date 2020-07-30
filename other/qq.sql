@@ -103,7 +103,6 @@ insert into `qq_groups`(user_qq,group_name) value
 
 select * from `qq_groups`;
 
-insert into `qq_groups`(user_qq,group_name) value;
 
 drop table `qq_friends`;
 create table `qq_friends`(
@@ -148,3 +147,17 @@ insert into `qq_photo` (address)  values
 ("http://simisimisimiru.gitee.io/imagebed/p1.jpeg"),
 ("http://simisimisimiru.gitee.io/imagebed/p2.jpg");
 select * from `qq_photo`;
+
+drop table `qq_temporary_message`;
+create table `qq_temporary_message`(
+	recipient int unsigned NOT NULL,
+	message varchar(1024) not null,
+	FOREIGN KEY(recipient) REFERENCES qq_user(qq)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+select * from qq_temporary_message;
+
+insert into qq_temporary_message value(1234567891,
+'{"type":"ShortMessageMes","data":"{"type":0,"senderId":1234567891,"recipient":1234567890,"content":"1","rows":2,"length":1,"chartGroupId":0,"time":1596091354}"}');
+
+

@@ -54,8 +54,9 @@ func (this *MainProcess) Run() {
 		Root:   root,
 		Conn:   this.Conn,
 	}
+	// processor.MyDialogProcessor = processor.NewDialogProcessor()
 	processor.MyMainProcessor.DefFunc()
-	processor.MyDialogProcessor = processor.NewDialogProcessor()
+
 	model.MySmsModel = model.NewSmsModel(this.Conn, model.MyUserModel.UserInfo.QQ)
 	this.Window.Show()
 	this.Window.Run()

@@ -24,6 +24,10 @@ var (
 	MyDialogProcessor *DialogProcessor
 )
 
+func init() {
+	MyDialogProcessor = NewDialogProcessor()
+}
+
 func NewDialogProcessor() (dialogProcessor *DialogProcessor) {
 	dialogProcessor = &DialogProcessor{
 		Dialogs: make(map[int]*Dialog, 0),

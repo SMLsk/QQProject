@@ -48,10 +48,12 @@ type NotifyUserStatusMes struct {
 
 type ShortMessageMes struct {
 	//私聊为0，群聊为1
-	Type        int     `json:"type"`
-	SenderId    int     `json:"senderId"`
-	RecipientId int     `json:"recipient"`
-	Content     string  `json:"content"`
-	Rows        float64 `json:"rows"`
-	Length      float64 `json:"length"`
+	Type         int     `json:"type"`
+	SenderId     int     `json:"senderId"`
+	RecipientId  int     `json:"recipient"`
+	Content      string  `json:"content"`
+	Rows         float64 `json:"rows"`
+	Length       float64 `json:"length"`
+	ChartGroupId int     `json:"chartGroupId"`
+	Time         int64   `json:"time"`
 }

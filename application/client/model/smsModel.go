@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"math"
 	"net"
+	"time"
 	"unicode"
 	// "strconv"
 )
@@ -39,6 +40,7 @@ func (this *SmsModel) SendSms(dialogType int, recipientId int, content string) (
 	shortMessageMes.SenderId = this.QQ
 	shortMessageMes.RecipientId = recipientId
 	shortMessageMes.Rows, shortMessageMes.Length = this.countRows(content)
+	shortMessageMes.Time = time.Now().Unix()
 	data, err := common.AssembleMes(message.ShortMessageMesType, shortMessageMes)
 	err = this.Transfer.WritePkg(data)
 	data, err = json.Marshal(shortMessageMes)
