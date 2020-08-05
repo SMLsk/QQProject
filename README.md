@@ -82,7 +82,7 @@ func (this *PhotoModel) DownPhoto(address string) (localAddress string) {
 
 为了实现这个效果，当时在网上找了一些资料，关于文件操作，有os、ioutil、bufio等几个包，具体的我也没有去了解每个包的差异，综合之后上面的这个方案是最好的，之前用过一个网上的方案，但是下载之后的图片失真很严重，就放弃了。
 
-关于图床的建立，我使用的是gitee来做，参照：
+关于图床的建立，我使用的是gitee来做，参照： 
 
 > https://www.cnblogs.com/AhuntSun-blog/p/12675620.html
 
