@@ -55,17 +55,25 @@ func (this *ServerProcessor) serverProcessMes(mes message.Message) {
 		var shortMessageMes message.ShortMessageMes
 		json.Unmarshal([]byte(mes.Data), &shortMessageMes)
 		//判断该消息的来源好友的对话框是否存在
+
+		//这里应该判断一下是群消息还是个人消息，如果是群消息，就通过ChatGroupId来检索，否则通过SenderId检索
+		var chartId int
+		if shortMessageMes.Type == 0 {
+			chartId = shortMessageMes.SenderId
+		} else {
+			chartId = shortMessageMes.ChartGroupId
+		}
 		//若存在，则直接调用对应对话框，并推送
 		var ok bool
 		var dialog *Dialog
-		if shortMessageMes.Type == 0 {
-			dialog, ok = MyDialogProcessor.Dialogs[shortMessageMes.SenderId]
-		}
-
+		dialog, ok = MyDialogProcessor.Dialogs[chartId]
 		if ok {
 			dialog.Window.Call("add", sciter.NewValue(mes.Data))
 		}
-		//若不存在，则加入消息列表，暂时还没写
+		model.MySmsListManager.SaveSms(chartId, shortMessageMes)
+		fmt.Println(model.MySmsListManager.SmsList)
+		//若不存在，则存入消息列表中，在存入函数中，调用界面添加消息的按钮
+
 	default:
 		fmt.Println("ERROR")
 	}

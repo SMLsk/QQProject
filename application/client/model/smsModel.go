@@ -41,6 +41,7 @@ func (this *SmsModel) SendSms(dialogType int, recipientId int, content string) (
 	shortMessageMes.RecipientId = recipientId
 	shortMessageMes.Rows, shortMessageMes.Length = this.countRows(content)
 	shortMessageMes.Time = time.Now().Unix()
+	MySmsListManager.SaveSms(recipientId, shortMessageMes)
 	data, err := common.AssembleMes(message.ShortMessageMesType, shortMessageMes)
 	err = this.Transfer.WritePkg(data)
 	data, err = json.Marshal(shortMessageMes)

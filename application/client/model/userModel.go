@@ -46,6 +46,7 @@ func Login(qq int, pwd string, conn net.Conn) (myUserModel *UserModel, err error
 		fmt.Println()
 		myUserModel.UserInfo.PhotoAddress = photoModel.DownPhoto(myUserModel.UserInfo.PhotoAddress)
 		MyFriendsManager = NewFriendsManager(loginRes.Groups, loginRes.Friends)
+		MySmsListManager = NewSmsListManager()
 		// fmt.Println(MyFriendsManager)
 	} else if loginRes.Code == 500 {
 		fmt.Println(loginRes.Error)
