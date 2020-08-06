@@ -82,13 +82,32 @@ func (this *PhotoModel) DownPhoto(address string) (localAddress string) {
 
 为了实现这个效果，当时在网上找了一些资料，关于文件操作，有os、ioutil、bufio等几个包，具体的我也没有去了解每个包的差异，综合之后上面的这个方案是最好的，之前用过一个网上的方案，但是下载之后的图片失真很严重，就放弃了。
 
-关于图床的建立，我使用的是gitee来做，参照： 
+关于图床的建立，我使用的是gitee来做，参照：
 
 > https://www.cnblogs.com/AhuntSun-blog/p/12675620.html
 
+完成了个人信息的获取之后，接下来需要显示好友列表，创建了一个FriendsManager结构体，如下：
 
+```go
+type FriendsManager struct {
+	Groups map[int]string `json:"groups"`	//分组信息
+	//GroupsFriends的切片类型本来应该是int，但是序列化之后，这里还是int，而Friends里面的int已经变为了string，为了方便查询这里也改成string
+	GroupsFriends map[int][]string           `json:"groupsFriends"` //每组包含的好友
+	Friends       map[int]message.FriendInfo `json:"friends"`	//好友信息
+}
+```
 
+在登录成功之后对该结构体实例化。
 
+在前端页面，构建一个initGroup()函数，用于初始化整个好友列表，目前对于好友登录之后的做法是接收到好友登录消息，修改FriendsManager的数据，直接调用initGroup()对好友列表进行刷新，登录好友其好友栏颜色为白色，但是这样的问题在于每次有新的好友登录，整个列表都会被刷新一遍，效果并不够好，合理的做法应该是对获取某一个好友的div，单独进行修改，以后有机会再补充吧。
+
+下一步的操作是完成短消息的收发，在一步主要需要考虑的问题在于好友离线时的消息处理，用户发出消息后，通过服务器转发，服务器对接收人的在线状态进行判断，若为在线，则直接转发，若离线，则传入数据库，当接收人上线时，服务器从数据库中取出待发送消息进行转发。
+
+后面的步骤按原先的设想是完成消息列表的构建、群聊的实现，因为时间的关系，就暂时不完成了，对于消息的存储，计划使用sqlite，将每次消息都存储在client本地，这一步还没有进行实践验证，以后有空再做。
+
+整体而言，做到这里，熟悉go语言的目的基本达到了，对于前端的一些操作也有了简单的认识，但在设计模式上面，整体结构我是参照thinkphp的结构来做的，但是仍存在许多问题，例如需要实现一个新功能时，不确定该将这个部分归为哪一层，server端倒是容易，但是client既要与前端交互，又得跟client端连接，所以对于这一部分没有做到很好的处理。
+
+以上，就是本次练习项目的总结了。
 
 
 

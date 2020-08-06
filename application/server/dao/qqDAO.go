@@ -40,12 +40,10 @@ func (this *Dao) ExecuteDql(sql string) (res []map[string]string, err error) {
 	if err != nil {
 		return
 	}
-
 	columns, err := rows.Columns()
 	if err != nil {
 		return
 	}
-
 	scanArgs := make([]interface{}, len(columns))
 	values := make([]interface{}, len(columns))
 	for i := range values {
